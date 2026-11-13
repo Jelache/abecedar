@@ -154,6 +154,17 @@ nav button[aria-selected="true"]{background:var(--accent);color:var(--accent-ink
 .cnt.done{background:var(--sun-bg)}
 .nword{font-family:var(--f-display);font-weight:800;font-size:34px;line-height:1}
 
+.sum{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:10px;width:100%}
+.grp{display:flex;flex-wrap:wrap;gap:4px;max-width:230px;justify-content:center;padding:8px;border-radius:18px;border:2px dashed var(--line);background:var(--paper)}
+.grp .cnt .pic,.grp .cnt .pic-fb{--s:46px}
+.op{font-family:var(--f-letter);font-size:52px;font-weight:700;line-height:1;color:var(--accent)}
+.eqline{font-family:var(--f-letter);font-size:46px;font-weight:700;letter-spacing:.06em}
+.eqline .qm{color:var(--accent)}
+.addcta{padding:18px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:16px}
+.addcta h2{font-family:var(--f-display);font-size:24px;margin:0}
+.addcta .ex{display:flex;align-items:center;gap:6px;font-family:var(--f-letter);font-weight:700;font-size:34px}
+.addcta .ex .pic,.addcta .ex .pic-fb{--s:44px}
+
 /* Culori */
 .cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:12px;padding:16px}
 .blob{display:block;aspect-ratio:1;max-width:100%;border-radius:46% 54% 52% 48% / 55% 45% 55% 45%;background:var(--c);border:3px solid color-mix(in srgb,var(--c) 70%,#000);box-shadow:inset -8px -10px 0 rgba(0,0,0,.12), inset 8px 8px 0 rgba(255,255,255,.25)}
@@ -237,6 +248,8 @@ footer a{color:inherit}
   nav{grid-template-columns:repeat(3,1fr)}
 }
 @media (max-width:460px){
+  .sum{flex-direction:column;gap:4px}
+  .op{font-size:44px}
   .opts{gap:8px}
   .q-word{font-size:36px}
   .cnt .pic,.cnt .pic-fb{--s:52px}
@@ -315,6 +328,11 @@ footer a{color:inherit}
     <div class="split">
       <div class="card"><div class="grid" id="ngrid" style="grid-template-columns:repeat(auto-fill,minmax(76px,1fr))"></div></div>
       <div class="card detail" id="ndetail" aria-live="polite"></div>
+    </div>
+    <div class="card addcta">
+      <div class="ex" aria-hidden="true"><span data-pic="🍎"></span><span data-pic="🍎"></span><span class="op" style="font-size:34px">+</span><span data-pic="🍎"></span><span>=</span><span>3</span></div>
+      <div style="flex:1 1 200px"><h2>Adunare</h2><p class="hint">Numără imaginile din ambele grupe și află cât fac împreună.</p></div>
+      <button class="btn" id="goAdd">Hai să adunăm!</button>
     </div>
   </section>
 
@@ -476,6 +494,10 @@ const PH = {
   paint:"Alege o culoare și colorează desenul.",
   zero:"Zero înseamnă nimic.",
   again:"Mai încearcă!",
+  addq:"Cât fac",
+  plus:"plus",
+  fac:"fac",
+  letsAdd:"Hai să adunăm!",
 };
 const PRAISE = ["Bravo!","Foarte bine!","Super!","Ai ghicit!","Excelent!","Bravo, Eva!"];
 /*ENDDATA*/
@@ -852,15 +874,18 @@ const GAMES = [
   ["lower","Litera mică","🔡"],
   ["count","Câte sunt?","🔢"],
   ["color","Culori","🎨"],
+  ["add","Adunare","➕"],
   ["memory","Perechi","🃏"],
 ];
 const gameState = {mode:"listen", q:null, locked:false, streak:0};
 $("gtabs").innerHTML = GAMES.map(([m,t,e],i) => `<button class="gchip" data-game="${m}" aria-pressed="${i===0}">${pic(e)}${t}</button>`).join("");
+function selectGame(m){
+  gameState.mode = m; gameState.streak = 0;
+  document.querySelectorAll("[data-game]").forEach(x => x.setAttribute("aria-pressed", x.dataset.game === m));
+}
 $("gtabs").onclick = e => {
   const c = e.target.closest("[data-game]"); if (!c) return;
-  gameState.mode = c.dataset.game; gameState.streak = 0;
-  document.querySelectorAll("[data-game]").forEach(x => x.setAttribute("aria-pressed", x === c));
-  boing(picOf(c));
+  selectGame(c.dataset.game); boing(picOf(c));
   newRound(true);
 };
 const LOOK = {A:"ĂÂ",Ă:"AÂ",Â:"AĂ",I:"ÎL",Î:"I",S:"ȘZ",Ș:"S",T:"ȚF",Ț:"T",B:"DP",D:"BP",P:"BR",M:"NW",N:"M",E:"F",F:"E",O:"Q",Q:"O",C:"G",G:"C",U:"V",V:"UW"};
@@ -906,6 +931,14 @@ function newRound(intro){
     q = {answer:String(i), opts:idx.map(String), show:o => `<span class="blob" style="--c:${COLORS[+o][1]}"></span>`, title:`${PH.color} ${COLORS[i][0]}?`,
          prompt:`<button class="btn" id="gHear">Ascultă din nou</button>`,
          say:() => speak([PH.color, COLORS[i][0]]), intro:() => speak([PH.color, COLORS[i][0]]), colorName:COLORS[i][0]};
+  } else if (m === "add"){
+    const a = 1 + Math.floor(Math.random()*9), b = 1 + Math.floor(Math.random()*(10-a)), s = a + b, e = rnd(COUNT_PICS);
+    const pool = Array.from({length:10}, (_,i) => String(i+1));
+    const grp = (n, off) => `<div class="grp">${Array.from({length:n}, (_,i) => `<button class="cnt" data-i="${off+i}" aria-label="Numără">${pic(e)}</button>`).join("")}</div>`;
+    const ask = [PH.addq, NUMS[a][0], PH.plus, NUMS[b][0]];
+    q = {answer:String(s), opts:options(String(s), pool, [s-1, s+1].filter(x => x >= 1 && x <= 10).join("")), show:o => o, title:`Cât fac ${a} + ${b}?`,
+         prompt:`<div class="sum" id="gCount">${grp(a,0)}<span class="op">+</span>${grp(b,a)}</div><div class="eqline">${a} + ${b} = <span class="qm" id="gQm">?</span></div>`,
+         say:() => speak(ask), intro:() => speak(ask), sumParts:[NUMS[a][0], PH.plus, NUMS[b][0], PH.fac, NUMS[s][0]]};
   } else {
     return newMemory(intro);
   }
@@ -913,7 +946,7 @@ function newRound(intro){
   $("gQ").textContent = q.title;
   $("gPrompt").innerHTML = q.prompt;
   const hear = $("gHear"); if (hear) hear.onclick = () => { boing(picOf(hear)); q.say(); };
-  if (m === "count") {
+  if (m === "count" || m === "add") {
     let c = 0;
     $("gCount").onclick = e => { const it = e.target.closest(".cnt"); if (!it || it.classList.contains("done")) return;
       c++; it.classList.add("done"); it.insertAdjacentHTML("beforeend", `<span class="badge">${c}</span>`); boing(picOf(it)); speak(NUMS[c][0]); };
@@ -953,8 +986,9 @@ $("gOpts").onclick = e => {
   if (b.dataset.o === q.answer){
     b.classList.add("right"); boing(b);
     if (q.reveal) $("gPrompt").querySelector(".blank").style.color = "var(--accent)";
+    if (q.sumParts) $("gQm").textContent = q.answer;
     if (LETTERS.includes(q.answer)) markLearned(q.answer);
-    win(q.reveal ? [q.reveal] : q.num ? [NUMS[q.num][0]] : q.colorName ? [q.colorName] : []);
+    win(q.reveal ? [q.reveal] : q.sumParts ? q.sumParts : q.num ? [NUMS[q.num][0]] : q.colorName ? [q.colorName] : []);
   } else {
     gameState.streak = 0; renderStreak();
     b.classList.add("wrong"); b.disabled = true;
@@ -1068,6 +1102,8 @@ $("tSetN").onclick = () => { tSet = "N"; $("tSetN").setAttribute("aria-pressed",
 $("tCase").onclick = () => { tLower = !tLower; $("tCase").setAttribute("aria-pressed", tLower); setTrace(ti); };
 addEventListener("resize", () => { if (!$("v-scrie").hidden) sizeCanvas(); });
 matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", drawTrace);
+
+$("goAdd").onclick = () => { selectGame("add"); location.hash = "jocuri"; };
 
 /* ---------- start ---------- */
 hydratePics();
