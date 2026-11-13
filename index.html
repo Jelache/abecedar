@@ -494,10 +494,6 @@ const PH = {
   paint:"Alege o culoare și colorează desenul.",
   zero:"Zero înseamnă nimic.",
   again:"Mai încearcă!",
-  addq:"Cât fac",
-  plus:"plus",
-  fac:"fac",
-  letsAdd:"Hai să adunăm!",
 };
 const PRAISE = ["Bravo!","Foarte bine!","Super!","Ai ghicit!","Excelent!","Bravo, Eva!"];
 /*ENDDATA*/
@@ -935,10 +931,10 @@ function newRound(intro){
     const a = 1 + Math.floor(Math.random()*9), b = 1 + Math.floor(Math.random()*(10-a)), s = a + b, e = rnd(COUNT_PICS);
     const pool = Array.from({length:10}, (_,i) => String(i+1));
     const grp = (n, off) => `<div class="grp">${Array.from({length:n}, (_,i) => `<button class="cnt" data-i="${off+i}" aria-label="Numără">${pic(e)}</button>`).join("")}</div>`;
-    const ask = [PH.addq, NUMS[a][0], PH.plus, NUMS[b][0]];
+    const ask = `Cât fac ${NUMS[a][0]} plus ${NUMS[b][0]}?`;
     q = {answer:String(s), opts:options(String(s), pool, [s-1, s+1].filter(x => x >= 1 && x <= 10).join("")), show:o => o, title:`Cât fac ${a} + ${b}?`,
          prompt:`<div class="sum" id="gCount">${grp(a,0)}<span class="op">+</span>${grp(b,a)}</div><div class="eqline">${a} + ${b} = <span class="qm" id="gQm">?</span></div>`,
-         say:() => speak(ask), intro:() => speak(ask), sumParts:[NUMS[a][0], PH.plus, NUMS[b][0], PH.fac, NUMS[s][0]]};
+         say:() => speak(ask), intro:() => speak(ask), sumParts:[NUMS[s][0]]};
   } else {
     return newMemory(intro);
   }

@@ -11,7 +11,7 @@ Aplicație pentru copii care învață alfabetul românesc, cifrele și culorile
 - **Culori**: 11 culori, fiecare cu trei obiecte, și un desen de colorat.
 - **Jocuri**: șapte jocuri cu stele: ascultă litera, prima literă, litera mică, câte sunt, culori, adunare și perechi.
 - **Scrie**: scris cu degetul peste litere și cifre punctate, pe liniile caietului tip I.
-- **Voce naturală**: 336 de înregistrări în limba română (litere, cuvinte, silabe, cifre, culori, îndemnuri și laude).
+- **Voce naturală**: 377 de înregistrări în limba română, cu vocea Laura (ElevenLabs v3): litere, cuvinte, silabe, cifre, culori, adunări, îndemnuri și laude.
 - **Ilustrații**: Fluent Emoji 3D de la Microsoft (licență MIT).
 - **Funcționează fără internet** după prima deschidere și se poate instala pe ecranul telefonului.
 
