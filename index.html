@@ -1,0 +1,765 @@
+<!doctype html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F26A21">
+<meta name="description" content="Alfabetul românesc pentru copii: litere, cuvinte pe silabe, jocuri și scris, cu voce naturală.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Abecedar">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Abecedarul Meu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Baloo+2:wght@600;800&family=Nunito:wght@500;700;800&display=swap">
+<style>
+/* Layout: o pagină de caiet tip I — linii albastre, margine roșie; vocalele roșii și consoanele albastre, ca în abecedarul de școală. */
+:root{
+  --paper:#F3F7FC; --card:#FFFFFF; --ink:#1E2742; --muted:#5D6985;
+  --line:#BBD3EE; --margin:#E58080;
+  --vowel:#D2333C; --vowel-bg:#FDE9E9; --cons:#2356C4; --cons-bg:#E5EDFC;
+  --accent:#F26A21; --accent-ink:#FFFFFF; --sun:#FFC53A; --mint:#169C8F; --mint-bg:#DDF4F1;
+  --shadow:rgba(30,39,66,.13);
+  --f-display:"Baloo 2","Nunito",system-ui,sans-serif;
+  --f-body:"Nunito",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-letter:"Andika","Nunito",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#111929; --card:#1A2440; --ink:#EEF2FB; --muted:#A4AFCB;
+  --line:#2B4166; --margin:#9E4C56;
+  --vowel:#FF7E86; --vowel-bg:#3B1F2D; --cons:#86A9FF; --cons-bg:#1D2C54;
+  --accent:#FF8A4A; --accent-ink:#1A1206; --sun:#FFD15A; --mint:#3CCBBB; --mint-bg:#163B3D;
+  --shadow:rgba(0,0,0,.45); color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --paper:#111929; --card:#1A2440; --ink:#EEF2FB; --muted:#A4AFCB;
+  --line:#2B4166; --margin:#9E4C56;
+  --vowel:#FF7E86; --vowel-bg:#3B1F2D; --cons:#86A9FF; --cons-bg:#1D2C54;
+  --accent:#FF8A4A; --accent-ink:#1A1206; --sun:#FFD15A; --mint:#3CCBBB; --mint-bg:#163B3D;
+  --shadow:rgba(0,0,0,.45); color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{
+  background:var(--paper); color:var(--ink); font-family:var(--f-body); font-size:17px; line-height:1.5;
+  background-image:repeating-linear-gradient(to bottom, transparent 0 35px, color-mix(in srgb, var(--line) 55%, transparent) 35px 36px);
+}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;-webkit-tap-highlight-color:transparent}
+button:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.wrap{max-width:1120px;margin:0 auto;padding-block:18px 48px;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));
+  display:flex;flex-direction:column;gap:18px}
+
+/* Header */
+header{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-mark{font-family:var(--f-letter);font-weight:700;font-size:25px;white-space:nowrap;line-height:1;width:56px;height:56px;border-radius:16px;
+  display:grid;place-items:center;background:var(--card);box-shadow:0 3px 0 var(--shadow);border:2px solid var(--line)}
+.brand-mark .v{color:var(--vowel)} .brand-mark .c{color:var(--cons)}
+h1{font-family:var(--f-display);font-weight:800;font-size:clamp(26px,4vw,34px);line-height:1.05;margin:0}
+.sub{color:var(--muted);font-size:14px;margin:2px 0 0}
+.stats{display:flex;gap:8px;flex-wrap:wrap}
+.pill{display:flex;align-items:center;gap:8px;background:var(--card);border:2px solid var(--line);border-radius:999px;padding:6px 14px;
+  font-weight:800;font-variant-numeric:tabular-nums;box-shadow:0 2px 0 var(--shadow)}
+.star{width:20px;height:20px;fill:var(--sun);stroke:color-mix(in srgb,var(--sun) 60%,#000);stroke-width:1.2}
+.pill.bump{animation:bump .5s}
+@keyframes bump{40%{transform:scale(1.18)}}
+
+nav{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;background:var(--card);padding:6px;border-radius:20px;border:2px solid var(--line)}
+nav button{padding:10px 6px;border-radius:14px;font-family:var(--f-display);font-weight:800;font-size:18px;display:flex;flex-direction:column;align-items:center;gap:0;line-height:1.1}
+nav button small{font-family:var(--f-body);font-weight:700;font-size:12px;color:var(--muted)}
+nav button[aria-selected="true"]{background:var(--accent);color:var(--accent-ink)}
+nav button[aria-selected="true"] small{color:inherit;opacity:.85}
+
+.card{background:var(--card);border:2px solid var(--line);border-radius:24px;box-shadow:0 4px 0 var(--shadow)}
+.note{font-size:14px;color:var(--muted);background:var(--card);border:2px dashed var(--line);border-radius:14px;padding:10px 14px}
+
+.voicebar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;background:var(--card);border:2px solid var(--line);border-radius:18px;padding:10px 14px}
+.voicebar label{font-weight:800;font-size:14px;color:var(--muted)}
+.voicebar select{font:inherit;font-size:15px;font-weight:700;color:var(--ink);background:var(--paper);border:2px solid var(--line);border-radius:12px;padding:6px 10px;min-width:0;max-width:100%;flex:1 1 200px}
+.voicebar input[type=range]{accent-color:var(--accent);flex:0 1 160px;min-width:100px}
+.voicebar .btn{padding:8px 14px;font-size:15px}
+.v-col{color:var(--vowel)} .c-col{color:var(--cons)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:14px;font-weight:700;color:var(--muted)}
+.legend span{display:flex;align-items:center;gap:6px}
+.dot{width:14px;height:14px;border-radius:50%}
+
+/* ===== Alfabet ===== */
+.alpha{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:18px;align-items:start}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(68px,1fr));gap:10px;padding:16px}
+.tile{position:relative;aspect-ratio:1;max-width:100%;border-radius:18px;font-family:var(--f-letter);font-weight:700;font-size:34px;line-height:1;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:2px solid transparent;transition:transform .12s}
+.tile small{font-size:17px;opacity:.75}
+.tile.v{background:var(--vowel-bg);color:var(--vowel)}
+.tile.c{background:var(--cons-bg);color:var(--cons)}
+.tile:hover{transform:translateY(-2px)}
+.tile:active{transform:scale(.95)}
+.tile[aria-pressed="true"]{border-color:currentColor;box-shadow:0 4px 0 currentColor}
+.tile .ok{position:absolute;top:5px;right:6px;width:10px;height:10px;border-radius:50%;background:var(--mint)}
+.grid-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:0 16px 16px}
+
+.detail{padding:20px;display:flex;flex-direction:column;gap:16px;position:sticky;top:max(12px, env(safe-area-inset-top, 0px))}
+.big{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.glyph{font-family:var(--f-letter);font-weight:700;font-size:clamp(96px,14vw,140px);line-height:.9;letter-spacing:.02em}
+.glyph .lo{font-size:.72em;margin-left:.12em;opacity:.85}
+.meta{display:flex;flex-direction:column;gap:6px}
+.tag{display:inline-block;font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:3px 10px;border-radius:999px;width:fit-content}
+.tag.v{background:var(--vowel-bg);color:var(--vowel)} .tag.c{background:var(--cons-bg);color:var(--cons)}
+.say{font-size:16px;color:var(--muted)} .say b{color:var(--ink);font-size:20px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 18px;border-radius:16px;font-weight:800;font-size:17px;
+  background:var(--accent);color:var(--accent-ink);box-shadow:0 4px 0 color-mix(in srgb,var(--accent) 60%,#000);transition:transform .1s}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 color-mix(in srgb,var(--accent) 60%,#000)}
+.btn.ghost{background:var(--card);color:var(--ink);border:2px solid var(--line);box-shadow:0 3px 0 var(--shadow)}
+.btn.mint{background:var(--mint);color:#fff;box-shadow:0 4px 0 color-mix(in srgb,var(--mint) 60%,#000)}
+.btn svg{width:20px;height:20px;fill:currentColor}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.words{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.wcard{display:flex;flex-direction:column;align-items:center;gap:4px;padding:14px 10px;border-radius:18px;background:var(--paper);border:2px solid var(--line);text-align:center}
+.wcard .emo{font-size:46px;line-height:1.1}
+.wcard .w{font-family:var(--f-letter);font-size:24px;font-weight:700}
+.wcard .s{font-size:14px;color:var(--muted);font-weight:700;letter-spacing:.04em}
+.hl{color:var(--accent);text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:4px}
+.wcard.playing{border-color:var(--accent)}
+
+/* ===== Cuvinte ===== */
+.wordview{padding:22px;display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center}
+.wv-emo{font-size:clamp(90px,18vw,140px);line-height:1.1;user-select:none}
+.letters{display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
+.lt{font-family:var(--f-letter);font-weight:700;font-size:clamp(40px,8vw,64px);line-height:1;min-width:1.05em;padding:8px 6px 10px;border-radius:14px;border-bottom:4px solid var(--line);transition:transform .15s,background .15s}
+.lt.v{color:var(--vowel)} .lt.c{color:var(--cons)}
+.lt.on{transform:translateY(-6px);background:var(--paper)}
+.syl{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;align-items:center}
+.sy{font-family:var(--f-letter);font-size:26px;font-weight:700;padding:6px 16px;border-radius:999px;background:var(--mint-bg);color:var(--ink);border:2px solid transparent}
+.sy.on{border-color:var(--mint)}
+.sep{color:var(--muted);font-weight:800}
+.counter{font-size:14px;color:var(--muted);font-weight:700;font-variant-numeric:tabular-nums}
+.hint{font-size:14px;color:var(--muted)}
+
+/* ===== Joacă ===== */
+.gametabs{display:flex;gap:8px;flex-wrap:wrap}
+.chip{padding:8px 14px;border-radius:999px;border:2px solid var(--line);background:var(--card);font-weight:800;font-size:15px}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.game{padding:22px;display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center;position:relative;overflow:hidden}
+.q{font-family:var(--f-display);font-weight:800;font-size:24px;margin:0;text-wrap:balance}
+.q-emo{font-size:96px;line-height:1.1}
+.q-word{font-family:var(--f-letter);font-size:44px;font-weight:700;letter-spacing:.03em}
+.blank{display:inline-block;min-width:.8em;border-bottom:4px dashed var(--accent);color:transparent}
+.opts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;width:100%;max-width:560px}
+.opt{aspect-ratio:1;max-width:100%;border-radius:22px;font-family:var(--f-letter);font-weight:700;font-size:clamp(40px,9vw,64px);line-height:1;background:var(--paper);border:3px solid var(--line);box-shadow:0 4px 0 var(--shadow)}
+.opt.right{background:var(--mint-bg);border-color:var(--mint);color:var(--mint)}
+.opt.wrong{animation:shake .4s;opacity:.4}
+@keyframes shake{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+.feedback{min-height:32px;font-family:var(--f-display);font-weight:800;font-size:24px}
+.feedback.good{color:var(--mint)} .feedback.bad{color:var(--vowel)}
+.burst{position:absolute;inset:0;pointer-events:none}
+.burst i{position:absolute;left:50%;top:45%;width:22px;height:22px;background:var(--sun);clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);animation:fly .9s ease-out forwards}
+@keyframes fly{to{transform:translate(var(--x),var(--y)) rotate(200deg) scale(.4);opacity:0}}
+.streak{display:flex;gap:4px;justify-content:center;min-height:22px}
+.streak svg{width:22px;height:22px}
+
+/* ===== Scrie ===== */
+.trace{padding:18px;display:flex;flex-direction:column;gap:14px}
+.trace-top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.nav-l{display:flex;align-items:center;gap:10px}
+.round{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:var(--paper);border:2px solid var(--line);font-size:22px;font-weight:800}
+.cur{font-family:var(--f-letter);font-weight:700;font-size:40px;min-width:1.4em;text-align:center}
+.canvas-box{position:relative;border-radius:18px;overflow:hidden;border:2px solid var(--line);background:var(--card);touch-action:none}
+canvas{display:block;width:100%;height:clamp(260px,48vh,420px);touch-action:none}
+.colors{display:flex;gap:8px}
+.sw{width:34px;height:34px;border-radius:50%;border:3px solid var(--card);box-shadow:0 0 0 2px var(--line)}
+.sw[aria-pressed="true"]{box-shadow:0 0 0 3px var(--ink)}
+
+.view[hidden]{display:none!important}
+footer{font-size:13px;color:var(--muted);text-align:center}
+
+@media (max-width:820px){
+  .alpha{grid-template-columns:minmax(0,1fr)}
+  .detail{position:static;order:-1}
+  .grid{grid-template-columns:repeat(auto-fill,minmax(58px,1fr));gap:8px;padding:12px}
+  .tile{font-size:28px;border-radius:14px}
+  .tile small{font-size:14px}
+}
+@media (max-width:460px){
+  nav button{font-size:15px;padding:8px 2px}
+  .opts{gap:8px}
+  .q-word{font-size:36px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true"><span class="v">A</span><span class="c">b</span></div>
+      <div>
+        <h1>Abecedarul meu</h1>
+        <p class="sub">Literele, sunetele și primele cuvinte în limba română</p>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="pill" id="pillLearn" title="Litere descoperite"><span><span id="learnCount">0</span>/31 litere</span></div>
+      <div class="pill" id="pillStars" title="Stele câștigate"><svg class="star" viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 21l1.6-7L2 9.2l7.1-.6z"/></svg><span id="starCount">0</span></div>
+    </div>
+  </header>
+
+  <nav role="tablist" aria-label="Secțiuni">
+    <button role="tab" data-view="alfabet">Alfabet<small>31 de litere</small></button>
+    <button role="tab" data-view="cuvinte">Cuvinte<small>citim pe silabe</small></button>
+    <button role="tab" data-view="joaca">Joacă<small>câștigă stele</small></button>
+    <button role="tab" data-view="scrie">Scrie<small>cu degetul</small></button>
+  </nav>
+
+  <div class="voicebar" id="voiceBar">
+    <label for="voiceSel">Vocea</label>
+    <select id="voiceSel"></select>
+    <label for="speed">Viteza</label>
+    <input type="range" id="speed" min="0.6" max="1.2" step="0.05" value="1">
+    <button class="btn ghost" id="voiceTest">Probează vocea</button>
+  </div>
+  <p class="note" id="voiceNote" hidden></p>
+
+  <!-- ALFABET -->
+  <section class="view" id="v-alfabet">
+    <div class="alpha">
+      <div class="card">
+        <div class="grid" id="grid"></div>
+        <div class="grid-foot">
+          <div class="legend">
+            <span><i class="dot" style="background:var(--vowel)"></i>vocale (8)</span>
+            <span><i class="dot" style="background:var(--cons)"></i>consoane (23)</span>
+            <span><i class="dot" style="background:var(--mint)"></i>descoperită</span>
+          </div>
+          <button class="btn ghost" id="sayAll"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>Toate literele</button>
+        </div>
+      </div>
+      <div class="card detail" id="detail" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <!-- CUVINTE -->
+  <section class="view" id="v-cuvinte" hidden>
+    <div class="card wordview">
+      <div class="counter" id="wCounter"></div>
+      <div class="wv-emo" id="wEmo" aria-hidden="true"></div>
+      <div class="letters" id="wLetters"></div>
+      <div class="syl" id="wSyl"></div>
+      <p class="hint">Atinge o literă ca s-o auzi.</p>
+      <div class="row" style="justify-content:center">
+        <button class="btn" id="wRead"><svg viewBox="0 0 24 24"><path d="M3 10v4h4l5 4V6L7 10zm13.5 2A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4z"/></svg>Citește cuvântul</button>
+        <button class="btn mint" id="wSylBtn">Pe silabe</button>
+        <button class="btn ghost" id="wSpell">Literă cu literă</button>
+      </div>
+      <div class="row" style="justify-content:center">
+        <button class="btn ghost" id="wPrev" aria-label="Cuvântul anterior">← Înapoi</button>
+        <button class="btn ghost" id="wRand">Alt cuvânt la întâmplare</button>
+        <button class="btn ghost" id="wNext" aria-label="Cuvântul următor">Înainte →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- JOACĂ -->
+  <section class="view" id="v-joaca" hidden>
+    <div class="gametabs" role="group" aria-label="Alege jocul">
+      <button class="chip" data-game="listen" aria-pressed="true">Ascultă și găsește litera</button>
+      <button class="chip" data-game="first" aria-pressed="false">Cu ce literă începe?</button>
+      <button class="chip" data-game="case" aria-pressed="false">Litera mare și litera mică</button>
+    </div>
+    <div class="card game" id="game" style="margin-top:12px">
+      <p class="q" id="gQ"></p>
+      <div id="gPrompt"></div>
+      <div class="opts" id="gOpts"></div>
+      <div class="feedback" id="gFb" aria-live="polite"></div>
+      <div class="streak" id="gStreak" aria-label="Răspunsuri corecte la rând"></div>
+      <div class="burst" id="burst"></div>
+    </div>
+  </section>
+
+  <!-- SCRIE -->
+  <section class="view" id="v-scrie" hidden>
+    <div class="card trace">
+      <div class="trace-top">
+        <div class="nav-l">
+          <button class="round" id="tPrev" aria-label="Litera anterioară">‹</button>
+          <div class="cur" id="tCur">A</div>
+          <button class="round" id="tNext" aria-label="Litera următoare">›</button>
+        </div>
+        <div class="gametabs">
+          <button class="chip" id="tUpper" aria-pressed="true">Literă mare</button>
+          <button class="chip" id="tLower" aria-pressed="false">Literă mică</button>
+        </div>
+        <div class="colors" id="tColors" aria-label="Culoarea creionului"></div>
+      </div>
+      <div class="canvas-box"><canvas id="cv" aria-label="Zonă de scris: urmărește litera punctată cu degetul sau cu mouse-ul"></canvas></div>
+      <div class="row">
+        <button class="btn ghost" id="tClear">Șterge</button>
+        <button class="btn mint" id="tSay">Ascultă litera</button>
+        <span class="hint">Scrie peste litera punctată, între liniile caietului.</span>
+      </div>
+    </div>
+  </section>
+
+  <footer>Toate literele, cuvintele și silabele sunt înregistrate cu o voce naturală în limba română. Progresul se păstrează doar în acest browser.</footer>
+</div>
+
+<script>
+(() => {
+const VOW = new Set([..."AĂÂEIÎOU"]);
+const NAMES = {A:"a",Ă:"ă",Â:"â din a",B:"be",C:"ce",D:"de",E:"e",F:"ef",G:"ge",H:"haș",I:"i",Î:"î din i",J:"je",K:"ca",L:"el",M:"em",N:"en",O:"o",P:"pe",Q:"chiu",R:"er",S:"es",Ș:"șe",T:"te",Ț:"țe",U:"u",V:"ve",W:"dublu ve",X:"ics",Y:"i grec",Z:"zet"};
+const SHOW = {Â:"â",Î:"î",W:"dublu ve",Y:"i grec"};
+// [literă, [cuvânt, silabe, imagine]]
+const DATA = [
+ ["A",[["Albină","Al-bi-nă","🐝"],["Avion","A-vi-on","✈️"],["Ananas","A-na-nas","🍍"]]],
+ ["Ă",[["Rață","Ra-ță","🦆"],["Barcă","Bar-că","⛵"],["Pisică","Pi-si-că","🐱"]]],
+ ["Â",[["Câine","Câi-ne","🐶"],["Pâine","Pâi-ne","🍞"],["Mână","Mâ-nă","✋"]]],
+ ["B",[["Banană","Ba-na-nă","🍌"],["Balon","Ba-lon","🎈"],["Broască","Broas-că","🐸"]]],
+ ["C",[["Casă","Ca-să","🏠"],["Cal","Cal","🐴"],["Ceas","Ceas","⏰"]]],
+ ["D",[["Delfin","Del-fin","🐬"],["Dinozaur","Di-no-za-ur","🦕"],["Dovleac","Dov-leac","🎃"]]],
+ ["E",[["Elefant","E-le-fant","🐘"],["Elicopter","E-li-cop-ter","🚁"],["Ecran","E-cran","🖥️"]]],
+ ["F",[["Fluture","Flu-tu-re","🦋"],["Floare","Floa-re","🌸"],["Foc","Foc","🔥"]]],
+ ["G",[["Girafă","Gi-ra-fă","🦒"],["Gogoașă","Go-goa-șă","🍩"],["Găină","Gă-i-nă","🐔"]]],
+ ["H",[["Hipopotam","Hi-po-po-tam","🦛"],["Hamster","Hams-ter","🐹"],["Hartă","Har-tă","🗺️"]]],
+ ["I",[["Iepure","Ie-pu-re","🐰"],["Inimă","I-ni-mă","❤️"],["Iarbă","Iar-bă","🌿"]]],
+ ["Î",[["Înghețată","În-ghe-ța-tă","🍦"],["Împărat","Îm-pă-rat","👑"],["Înger","În-ger","👼"]]],
+ ["J",[["Jucărie","Ju-că-ri-e","🧸"],["Jaguar","Ja-gu-ar","🐆"],["Joc","Joc","🎲"]]],
+ ["K",[["Koala","Ko-a-la","🐨"],["Kiwi","Ki-wi","🥝"],["Karate","Ka-ra-te","🥋"]]],
+ ["L",[["Leu","Leu","🦁"],["Lună","Lu-nă","🌙"],["Lămâie","Lă-mâ-ie","🍋"]]],
+ ["M",[["Măr","Măr","🍎"],["Mașină","Ma-și-nă","🚗"],["Maimuță","Mai-mu-ță","🐒"]]],
+ ["N",[["Nor","Nor","☁️"],["Nas","Nas","👃"],["Navă","Na-vă","🚀"]]],
+ ["O",[["Ou","Ou","🥚"],["Oaie","Oa-ie","🐑"],["Ochi","Ochi","👀"]]],
+ ["P",[["Pește","Peș-te","🐟"],["Pară","Pa-ră","🍐"],["Pinguin","Pin-gu-in","🐧"]]],
+ ["Q",[["Quiz","Quiz","❓"]]],
+ ["R",[["Robot","Ro-bot","🤖"],["Rachetă","Ra-che-tă","🚀"],["Roată","Roa-tă","🛞"]]],
+ ["S",[["Soare","Soa-re","☀️"],["Stea","Stea","⭐"],["Struguri","Stru-guri","🍇"]]],
+ ["Ș",[["Șarpe","Șar-pe","🐍"],["Șoarece","Șoa-re-ce","🐭"],["Șosetă","Șo-se-tă","🧦"]]],
+ ["T",[["Tren","Tren","🚂"],["Tigru","Ti-gru","🐯"],["Telefon","Te-le-fon","📱"]]],
+ ["Ț",[["Țestoasă","Țes-toa-să","🐢"],["Țânțar","Țân-țar","🦟"],["Țeavă","Țea-vă","🪈"]]],
+ ["U",[["Urs","Urs","🐻"],["Umbrelă","Um-bre-lă","☂️"],["Unicorn","U-ni-corn","🦄"]]],
+ ["V",[["Vulpe","Vul-pe","🦊"],["Vapor","Va-por","🚢"],["Vioară","Vi-oa-ră","🎻"]]],
+ ["W",[["Windsurf","Wind-surf","🏄"]]],
+ ["X",[["Xilofon","Xi-lo-fon","🎶"],["Taxi","Ta-xi","🚕"]]],
+ ["Y",[["Yoga","Yo-ga","🧘"],["Yo-yo","Yo-yo","🪀"]]],
+ ["Z",[["Zebră","Ze-bră","🦓"],["Zmeu","Zmeu","🪁"],["Zăpadă","Ză-pa-dă","❄️"]]],
+];
+const LETTERS = DATA.map(d => d[0]);
+const NOTES = {Ă:"Litera Ă nu începe aproape niciun cuvânt. O găsim de obicei la sfârșit: rață, barcă.",
+  Â:"Â se citește la fel ca Î, dar se scrie în mijlocul cuvântului: câine, pâine.",
+  Î:"Î se scrie la începutul și la sfârșitul cuvântului: înghețată, a coborî.",
+  Q:"Q, W și Y apar doar în cuvinte venite din alte limbi.", W:"W apare doar în cuvinte venite din alte limbi.",
+  Y:"Y apare doar în cuvinte venite din alte limbi.", K:"K apare mai ales în cuvinte venite din alte limbi."};
+const WORDS = DATA.flatMap(([L, ws]) => ws.map(w => ({L, word:w[0], syl:w[1].split("-"), emo:w[2]})));
+const isV = ch => VOW.has(ch.toUpperCase());
+const low = L => L.toLowerCase();
+
+/* ---------- stocare ---------- */
+const store = {
+  get(k, d){ try { const v = localStorage.getItem("abc_"+k); return v == null ? d : JSON.parse(v); } catch { return d; } },
+  set(k, v){ try { localStorage.setItem("abc_"+k, JSON.stringify(v)); } catch {} }
+};
+const learned = new Set(store.get("learned", []));
+let stars = store.get("stars", 0);
+function markLearned(L){
+  if (learned.has(L)) return;
+  learned.add(L); store.set("learned", [...learned]); renderStats(); renderGrid();
+  bump("pillLearn");
+}
+function addStar(){ stars++; store.set("stars", stars); renderStats(); bump("pillStars"); }
+function bump(id){ const el = document.getElementById(id); el.classList.remove("bump"); void el.offsetWidth; el.classList.add("bump"); }
+function renderStats(){
+  document.getElementById("learnCount").textContent = learned.size;
+  document.getElementById("starCount").textContent = stars;
+}
+
+/* ---------- voce ---------- */
+const synth = "speechSynthesis" in window ? window.speechSynthesis : null;
+let voice = null;
+const note = document.getElementById("voiceNote");
+const voiceSel = document.getElementById("voiceSel");
+const speedEl = document.getElementById("speed");
+let userSpeed = +store.get("speed", 1) || 1;
+speedEl.value = userSpeed;
+// vocile neurale („Natural”, „Online”, „Neural”) sună mult mai omenesc decât cele vechi, robotice
+const isNatural = v => /natural|neural|online|premium|enhanced|wavenet/i.test(v.name);
+function score(v){
+  let s = 0;
+  if (isNatural(v)) s += 100;
+  if (/google/i.test(v.name)) s += 40;
+  if (!v.localService) s += 10;
+  if (/espeak|compact/i.test(v.name)) s -= 50;
+  return s;
+}
+let roVoices = [];
+/* înregistrări naturale (voce umană generată), redate cu Web Audio */
+let clipData = null, actx = null, curSrc = null;
+const CLIPS = {};
+const REC = "__rec";
+const norm = t => t.toLowerCase().replace(/[.,!?…]/g,"").replace(/\s+/g," ").trim();
+fetch("audio.json").then(r => r.ok ? r.json() : null).then(d => { if (d) { clipData = d; pickVoice(); } }).catch(() => {});
+function ensureCtx(){
+  if (!actx) { const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return null; actx = new AC(); }
+  if (actx.state === "suspended") actx.resume();
+  return actx;
+}
+async function getBuf(key){
+  if (CLIPS[key]) return CLIPS[key];
+  const bin = atob(clipData[key]); const arr = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+  CLIPS[key] = await new Promise((ok, bad) => actx.decodeAudioData(arr.buffer, ok, bad));
+  return CLIPS[key];
+}
+const useRec = () => !!clipData && voiceSel.value === REC;
+function pickVoice(){
+  const vs = synth ? synth.getVoices() : [];
+  roVoices = vs.filter(v => /^ro(-|_|$)/i.test(v.lang)).sort((a,b) => score(b) - score(a));
+  const saved = store.get("voice", "");
+  voice = roVoices.find(v => v.name === saved) || roVoices[0] || null;
+  const recOn = !!clipData && (saved === REC || saved === "" || !roVoices.some(v => v.name === saved));
+  let opts = clipData ? `<option value="${REC}"${recOn ? " selected" : ""}>Voce naturală înregistrată ★</option>` : "";
+  opts += roVoices.map(v => `<option value="${v.name.replace(/"/g,"&quot;")}"${!recOn && v === voice ? " selected" : ""}>Dispozitiv: ${v.name.replace(/^Microsoft |^Google /,"")}${isNatural(v) ? " (naturală)" : ""}</option>`).join("");
+  voiceSel.innerHTML = opts || `<option>Nicio voce românească</option>`;
+  voiceSel.disabled = !opts;
+  syncSpeed();
+  if (recOn) { note.hidden = true; return; }
+  if (!synth) { note.hidden = false; note.textContent = "Acest browser nu poate citi cu voce tare. Literele și cuvintele se pot citi împreună cu un adult."; return; }
+  if (!vs.length) return;
+  if (!voice) {
+    note.hidden = false;
+    note.innerHTML = "Pe acest dispozitiv nu există o voce în limba română, așa că pronunția sună greșit. <b>Pe Android:</b> Setări → Limbă → Ieșire text în vorbire → Google → instalează „Română”. <b>Pe calculator:</b> deschide aplicația în Microsoft Edge, care are vocile naturale Alina și Emil.";
+  } else if (!roVoices.some(isNatural)) {
+    note.hidden = false;
+    note.innerHTML = "Vocea românească de pe acest dispozitiv este una simplă. Pentru o voce care sună ca un om, deschide aplicația în <b>Microsoft Edge</b> (vocile Alina și Emil) sau, pe telefon, folosește vocea Google în română.";
+  } else note.hidden = true;
+}
+// viteza se aplică doar vocii dispozitivului; înregistrările au deja un ritm potrivit pentru copii
+function syncSpeed(){ const r = useRec(); speedEl.hidden = r; document.querySelector('label[for="speed"]').hidden = r; }
+voiceSel.onchange = () => {
+  if (voiceSel.value === REC) store.set("voice", REC);
+  else { voice = roVoices.find(v => v.name === voiceSel.value) || voice; store.set("voice", voice ? voice.name : ""); }
+  syncSpeed(); speak("Bună! Hai să învățăm literele.");
+};
+speedEl.oninput = () => { userSpeed = +speedEl.value; store.set("speed", userSpeed); };
+speedEl.onchange = () => speak("Albină");
+document.getElementById("voiceTest").onclick = () => speak(["Bună! Hai să învățăm literele.", "Albină.", {t:"al",pause:250}, {t:"bi",pause:250}, "nă"]);
+pickVoice();
+if (synth) { synth.onvoiceschanged = pickVoice; setTimeout(pickVoice, 600); }
+let speakToken = 0;
+function stopAll(){
+  speakToken++;
+  if (synth) synth.cancel();
+  if (curSrc) { curSrc.onended = null; try { curSrc.stop(); } catch {} curSrc = null; }
+}
+// parts: șir sau {t, on, pause}; caută întâi înregistrarea, apoi folosește vocea dispozitivului
+function speak(parts, done){
+  stopAll();
+  const tok = speakToken;
+  const list = (Array.isArray(parts) ? parts : [parts]).map(p => typeof p === "string" ? {t:p} : p);
+  let i = 0;
+  const after = p => setTimeout(next, p.pause ?? 180);
+  async function next(){
+    if (tok !== speakToken) return;
+    if (i >= list.length) { done && done(); return; }
+    const p = list[i++];
+    const key = norm(p.t);
+    if (useRec() && clipData[key] && ensureCtx()) {
+      try {
+        const buf = await getBuf(key);
+        if (tok !== speakToken) return;
+        const src = actx.createBufferSource();
+        src.buffer = buf; src.connect(actx.destination);
+        curSrc = src;
+        src.onended = () => { if (curSrc === src) curSrc = null; after(p); };
+        p.on && p.on();
+        src.start();
+        return;
+      } catch {}
+    }
+    if (!synth) { p.on && p.on(); after(p); return; }
+    const u = new SpeechSynthesisUtterance(p.t);
+    u.lang = "ro-RO"; if (voice) u.voice = voice;
+    u.rate = Math.min(1.5, Math.max(.5, (p.rate || 0.92) * userSpeed)); u.pitch = 1;
+    u.onstart = () => p.on && p.on();
+    u.onend = () => after(p);
+    u.onerror = () => setTimeout(next, 50);
+    synth.speak(u);
+  }
+  next();
+}
+const ICON_PLAY = '<svg viewBox="0 0 24 24"><path d="M3 10v4h4l5 4V6L7 10zm13.5 2A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4z"/></svg>';
+
+/* ---------- navigare ---------- */
+const VIEWS = ["alfabet","cuvinte","joaca","scrie"];
+const tabs = [...document.querySelectorAll("nav button")];
+function show(view){
+  if (!VIEWS.includes(view)) view = "alfabet";
+  VIEWS.forEach(v => document.getElementById("v-"+v).hidden = v !== view);
+  tabs.forEach(t => t.setAttribute("aria-selected", t.dataset.view === view));
+  stopAll();
+  if (view === "scrie") requestAnimationFrame(sizeCanvas);
+  if (view === "joaca" && !gameState.q) newRound();
+}
+tabs.forEach(t => t.onclick = () => { if (location.hash !== "#"+t.dataset.view) location.hash = t.dataset.view; else show(t.dataset.view); });
+addEventListener("hashchange", () => show(location.hash.slice(1)));
+
+/* ---------- ALFABET ---------- */
+let sel = 0;
+const grid = document.getElementById("grid");
+function renderGrid(){
+  grid.innerHTML = LETTERS.map((L,i) => `<button class="tile ${isV(L)?"v":"c"}" data-i="${i}" aria-pressed="${i===sel}" aria-label="Litera ${L}">${learned.has(L)?'<span class="ok" aria-hidden="true"></span>':""}${L}<small>${low(L)}</small></button>`).join("");
+}
+grid.onclick = e => {
+  const b = e.target.closest(".tile"); if (!b) return;
+  sel = +b.dataset.i; renderGrid(); renderDetail(); sayLetter(LETTERS[sel]);
+  if (matchMedia("(max-width:820px)").matches) document.getElementById("detail").scrollIntoView({behavior:"smooth", block:"start"});
+};
+function hlWord(word, L){
+  const i = word.toLowerCase().indexOf(low(L));
+  if (i < 0) return word;
+  return word.slice(0,i) + `<span class="hl">${word[i]}</span>` + word.slice(i+1);
+}
+function sayLetter(L){
+  const w = DATA[LETTERS.indexOf(L)][1][0][0];
+  speak(`Litera ${NAMES[L]}. ${NAMES[L].split(" ")[0]}, ca în ${w.toLowerCase()}.`, () => markLearned(L));
+}
+function renderDetail(){
+  const [L, ws] = DATA[sel];
+  const v = isV(L);
+  const d = document.getElementById("detail");
+  d.innerHTML = `
+    <div class="big">
+      <div class="glyph ${v?"v-col":"c-col"}" aria-label="${L} mare și ${low(L)} mic">${L}<span class="lo">${low(L)}</span></div>
+      <div class="meta">
+        <span class="tag ${v?"v":"c"}">${v?"vocală":"consoană"}</span>
+        <span class="say">Se citește: <b>„${SHOW[L] || NAMES[L]}”</b></span>
+        <span class="say">Litera ${sel+1} din 31</span>
+      </div>
+    </div>
+    <div class="row">
+      <button class="btn" id="dSay">${ICON_PLAY}Ascultă litera</button>
+      <button class="btn ghost" id="dPrev" aria-label="Litera anterioară">←</button>
+      <button class="btn ghost" id="dNext" aria-label="Litera următoare">→</button>
+    </div>
+    ${NOTES[L] ? `<p class="note" style="margin:0">${NOTES[L]}</p>` : ""}
+    <div class="words">${ws.map((w,i) => `
+      <button class="wcard" data-w="${i}">
+        <span class="emo" aria-hidden="true">${w[2]}</span>
+        <span class="w">${hlWord(w[0], L)}</span>
+        <span class="s">${w[1].split("-").join(" · ")}</span>
+      </button>`).join("")}
+    </div>`;
+  d.querySelector("#dSay").onclick = () => sayLetter(L);
+  d.querySelector("#dPrev").onclick = () => { sel = (sel+30)%31; renderGrid(); renderDetail(); sayLetter(LETTERS[sel]); };
+  d.querySelector("#dNext").onclick = () => { sel = (sel+1)%31; renderGrid(); renderDetail(); sayLetter(LETTERS[sel]); };
+  d.querySelectorAll(".wcard").forEach(c => c.onclick = () => {
+    const w = ws[+c.dataset.w];
+    d.querySelectorAll(".wcard").forEach(x => x.classList.remove("playing")); c.classList.add("playing");
+    speak([{t:w[0], pause:350}, ...w[1].split("-").map(s => ({t:s.toLowerCase(), rate:.85, pause:250})), {t:w[0]}],
+      () => { c.classList.remove("playing"); markLearned(L); });
+  });
+}
+document.getElementById("sayAll").onclick = () => {
+  speak(LETTERS.map((L,i) => ({t:NAMES[L].split(" ")[0], rate:.85, pause:250, on:() => { sel = i; renderGrid(); renderDetail(); }})));
+};
+
+/* ---------- CUVINTE ---------- */
+let wi = 0;
+const $ = id => document.getElementById(id);
+function renderWord(){
+  const w = WORDS[wi];
+  $("wCounter").textContent = `Cuvântul ${wi+1} din ${WORDS.length} · litera ${w.L}`;
+  $("wEmo").textContent = w.emo;
+  $("wLetters").innerHTML = [...w.word].map((ch,i) => ch === "-" ? `<span class="sep">-</span>` :
+    `<button class="lt ${isV(ch)?"v":"c"}" data-i="${i}" aria-label="litera ${ch}">${ch}</button>`).join("");
+  $("wSyl").innerHTML = w.syl.map((s,i) => `<span class="sy" data-i="${i}">${s.toLowerCase()}</span>`).join('<span class="sep">-</span>');
+}
+function lightLetter(i){ document.querySelectorAll("#wLetters .lt").forEach(b => b.classList.toggle("on", +b.dataset.i === i)); }
+function lightSyl(i){ document.querySelectorAll("#wSyl .sy").forEach(b => b.classList.toggle("on", +b.dataset.i === i)); }
+function clearLights(){ lightLetter(-1); lightSyl(-1); }
+$("wLetters").onclick = e => {
+  const b = e.target.closest(".lt"); if (!b) return;
+  const ch = WORDS[wi].word[+b.dataset.i].toUpperCase();
+  lightLetter(+b.dataset.i);
+  speak({t:(NAMES[ch]||ch).split(" ")[0], rate:.8}, clearLights);
+};
+$("wRead").onclick = () => speak({t:WORDS[wi].word, rate:.85});
+$("wSylBtn").onclick = () => {
+  const w = WORDS[wi];
+  speak([...w.syl.map((s,i) => ({t:s.toLowerCase(), rate:.85, pause:350, on:() => lightSyl(i)})), {t:w.word, on:() => lightSyl(-1)}], clearLights);
+};
+$("wSpell").onclick = () => {
+  const w = WORDS[wi];
+  const parts = [];
+  [...w.word].forEach((ch,i) => { if (ch !== "-") parts.push({t:(NAMES[ch.toUpperCase()]||ch).split(" ")[0], rate:.8, pause:220, on:() => lightLetter(i)}); });
+  parts.push({t:w.word, on:() => lightLetter(-1)});
+  speak(parts, clearLights);
+};
+$("wPrev").onclick = () => { wi = (wi - 1 + WORDS.length) % WORDS.length; renderWord(); $("wRead").click(); };
+$("wNext").onclick = () => { wi = (wi + 1) % WORDS.length; renderWord(); $("wRead").click(); };
+$("wRand").onclick = () => { let n; do { n = Math.floor(Math.random()*WORDS.length); } while (n === wi); wi = n; renderWord(); $("wRead").click(); };
+
+/* ---------- JOACĂ ---------- */
+const gameState = {mode:"listen", q:null, locked:false, streak:0};
+const rnd = a => a[Math.floor(Math.random()*a.length)];
+const shuffle = a => { a = a.slice(); for (let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; };
+// distractori: litere care seamănă (ex: A/Ă/Â) fac jocul mai util
+const LOOK = {A:"ĂÂ",Ă:"AÂ",Â:"AĂ",I:"ÎL",Î:"I",S:"ȘZ",Ș:"S",T:"ȚF",Ț:"T",B:"DP",D:"BP",P:"BR",M:"NW",N:"M",E:"F",F:"E",O:"Q",Q:"O",C:"G",G:"C",U:"V",V:"UW"};
+function options(answer, pool){
+  const set = new Set([answer]);
+  const near = [...(LOOK[answer]||"")].filter(c => pool.includes(c));
+  if (near.length) set.add(rnd(near));
+  while (set.size < 4) set.add(rnd(pool));
+  return shuffle([...set]);
+}
+const FIRST_WORDS = WORDS.filter(w => w.word[0].toUpperCase() === w.L);
+function newRound(){
+  gameState.locked = false;
+  $("gFb").textContent = ""; $("gFb").className = "feedback";
+  const m = gameState.mode;
+  let q;
+  if (m === "listen"){
+    const L = rnd(LETTERS);
+    q = {answer:L, opts:options(L, LETTERS), show:x => x, title:"Ascultă și apasă pe litera auzită.",
+         prompt:`<button class="btn" id="gHear">${ICON_PLAY}Ascultă din nou</button>`,
+         say:() => speak({t:NAMES[L].split(" ")[0], rate:.8})};
+  } else if (m === "first"){
+    const w = rnd(FIRST_WORDS);
+    q = {answer:w.L, opts:options(w.L, LETTERS), show:x => x, title:"Cu ce literă începe cuvântul?",
+         prompt:`<div class="q-emo" aria-hidden="true">${w.emo}</div><div class="q-word"><span class="blank">${w.word[0]}</span>${w.word.slice(1)}</div>`,
+         say:() => speak({t:w.word, rate:.85}), reveal:w.word};
+  } else {
+    const L = rnd(LETTERS);
+    q = {answer:L, opts:options(L, LETTERS), show:x => low(x), title:"Găsește litera mică pentru:",
+         prompt:`<div class="glyph ${isV(L)?"v-col":"c-col"}">${L}</div>`,
+         say:() => speak({t:NAMES[L].split(" ")[0], rate:.8})};
+  }
+  gameState.q = q;
+  $("gQ").textContent = q.title;
+  $("gPrompt").innerHTML = q.prompt;
+  const hear = document.getElementById("gHear"); if (hear) hear.onclick = q.say;
+  $("gOpts").innerHTML = q.opts.map(o => `<button class="opt ${isV(o)?"v-col":"c-col"}" data-o="${o}">${q.show(o)}</button>`).join("");
+  renderStreak();
+  if (!document.getElementById("v-joaca").hidden) q.say();
+}
+function renderStreak(){
+  const n = gameState.streak % 5;
+  $("gStreak").innerHTML = Array.from({length:5}, (_,i) => `<svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 21l1.6-7L2 9.2l7.1-.6z" fill="${i<n?"var(--sun)":"none"}" stroke="var(--line)" stroke-width="1.5"/></svg>`).join("");
+}
+function burst(){
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const b = $("burst"); b.innerHTML = "";
+  for (let i=0;i<14;i++){
+    const a = Math.random()*Math.PI*2, r = 120 + Math.random()*140;
+    const s = document.createElement("i");
+    s.style.setProperty("--x", Math.cos(a)*r+"px"); s.style.setProperty("--y", Math.sin(a)*r+"px");
+    b.appendChild(s);
+  }
+  setTimeout(() => b.innerHTML = "", 1000);
+}
+const PRAISE = ["Bravo!","Foarte bine!","Super!","Ai ghicit!","Excelent!"];
+$("gOpts").onclick = e => {
+  const b = e.target.closest(".opt"); if (!b || gameState.locked) return;
+  const q = gameState.q;
+  if (b.dataset.o === q.answer){
+    gameState.locked = true; gameState.streak++;
+    b.classList.add("right");
+    const p = rnd(PRAISE);
+    $("gFb").textContent = p; $("gFb").className = "feedback good";
+    if (q.reveal) $("gPrompt").querySelector(".blank").style.color = "var(--accent)";
+    addStar(); burst(); renderStreak(); markLearned(q.answer);
+    speak([p, ...(q.reveal ? [q.reveal] : [])], () => setTimeout(newRound, 300));
+  } else {
+    gameState.streak = 0; renderStreak();
+    b.classList.add("wrong"); b.disabled = true;
+    $("gFb").textContent = "Mai încearcă!"; $("gFb").className = "feedback bad";
+    speak("Mai încearcă!", q.say);
+  }
+};
+document.querySelectorAll("[data-game]").forEach(c => c.onclick = () => {
+  gameState.mode = c.dataset.game; gameState.streak = 0;
+  document.querySelectorAll("[data-game]").forEach(x => x.setAttribute("aria-pressed", x === c));
+  newRound();
+});
+
+/* ---------- SCRIE ---------- */
+let ti = 0, tCase = "upper", strokes = [], pen = null;
+const PENS = ["--accent","--cons","--vowel","--mint"];
+let penVar = PENS[0];
+const cv = $("cv"), ctx = cv.getContext("2d");
+const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+$("tColors").innerHTML = PENS.map((p,i) => `<button class="sw" data-p="${p}" aria-pressed="${i===0}" aria-label="Culoare ${i+1}" style="background:var(${p})"></button>`).join("");
+$("tColors").onclick = e => {
+  const b = e.target.closest(".sw"); if (!b) return;
+  penVar = b.dataset.p;
+  document.querySelectorAll(".sw").forEach(x => x.setAttribute("aria-pressed", x === b));
+};
+function sizeCanvas(){
+  const r = cv.getBoundingClientRect(); if (!r.width) return;
+  const dpr = window.devicePixelRatio || 1;
+  cv.width = Math.round(r.width*dpr); cv.height = Math.round(r.height*dpr);
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  drawTrace();
+}
+function drawTrace(){
+  const W = cv.clientWidth, H = cv.clientHeight;
+  ctx.clearRect(0,0,W,H);
+  // liniatura caietului tip I: liniile de sus, mijloc și jos ale rândului
+  const top = H*0.12, base = H*0.80, mid = top + (base-top)*0.42, desc = H*0.95;
+  ctx.lineWidth = 1.5; ctx.strokeStyle = css("--line"); ctx.setLineDash([]);
+  [top, mid, base].forEach(y => { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); });
+  ctx.globalAlpha = .5; ctx.beginPath(); ctx.moveTo(0,desc); ctx.lineTo(W,desc); ctx.stroke(); ctx.globalAlpha = 1;
+  ctx.strokeStyle = css("--margin"); ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(Math.min(56, W*.1),0); ctx.lineTo(Math.min(56, W*.1),H); ctx.stroke();
+  // litera punctată
+  const L = LETTERS[ti], ch = tCase === "upper" ? L : low(L);
+  const size = (base-top) * 1.32;
+  ctx.font = `700 ${size}px Andika, Nunito, sans-serif`;
+  ctx.textAlign = "center"; ctx.textBaseline = "alphabetic";
+  const x = W/2 + Math.min(28, W*.05);
+  ctx.fillStyle = css("--paper"); ctx.globalAlpha = .9; ctx.fillText(ch, x, base); ctx.globalAlpha = 1;
+  ctx.setLineDash([3, 9]); ctx.lineCap = "round"; ctx.lineWidth = 4;
+  ctx.strokeStyle = css(isV(L) ? "--vowel" : "--cons"); ctx.globalAlpha = .55;
+  ctx.strokeText(ch, x, base);
+  ctx.globalAlpha = 1; ctx.setLineDash([]);
+  // urmele copilului
+  ctx.lineJoin = "round"; ctx.lineCap = "round";
+  strokes.forEach(s => {
+    ctx.strokeStyle = css(s.c); ctx.lineWidth = Math.max(10, W*0.018);
+    ctx.beginPath(); s.p.forEach(([px,py],i) => i ? ctx.lineTo(px,py) : ctx.moveTo(px,py));
+    if (s.p.length === 1) ctx.lineTo(s.p[0][0]+.1, s.p[0][1]);
+    ctx.stroke();
+  });
+}
+const pt = e => { const r = cv.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
+cv.addEventListener("pointerdown", e => { cv.setPointerCapture(e.pointerId); pen = {c:penVar, p:[pt(e)]}; strokes.push(pen); drawTrace(); });
+cv.addEventListener("pointermove", e => { if (!pen) return; pen.p.push(pt(e)); drawTrace(); });
+const up = () => { pen = null; };
+cv.addEventListener("pointerup", up); cv.addEventListener("pointercancel", up);
+function setTrace(i){
+  ti = (i + 31) % 31; strokes = [];
+  $("tCur").innerHTML = `<span class="${isV(LETTERS[ti])?"v-col":"c-col"}">${tCase==="upper"?LETTERS[ti]:low(LETTERS[ti])}</span>`;
+  drawTrace();
+}
+$("tPrev").onclick = () => { setTrace(ti-1); $("tSay").click(); };
+$("tNext").onclick = () => { setTrace(ti+1); $("tSay").click(); };
+$("tClear").onclick = () => { strokes = []; drawTrace(); };
+$("tSay").onclick = () => speak({t:NAMES[LETTERS[ti]].split(" ")[0], rate:.8});
+$("tUpper").onclick = () => { tCase = "upper"; $("tUpper").setAttribute("aria-pressed", true); $("tLower").setAttribute("aria-pressed", false); setTrace(ti); };
+$("tLower").onclick = () => { tCase = "lower"; $("tLower").setAttribute("aria-pressed", true); $("tUpper").setAttribute("aria-pressed", false); setTrace(ti); };
+addEventListener("resize", () => { if (!$("v-scrie").hidden) sizeCanvas(); });
+matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", drawTrace);
+new MutationObserver(drawTrace).observe(document.documentElement, {attributes:true, attributeFilter:["data-theme"]});
+
+/* ---------- start ---------- */
+renderStats(); renderGrid(); renderDetail(); renderWord(); setTrace(0);
+show(location.hash.slice(1));
+if (document.fonts) document.fonts.ready.then(() => { if (!$("v-scrie").hidden) sizeCanvas(); });
+})();
+</script>
+<script>
+if ("serviceWorker" in navigator) addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));
+</script>
+</body>
+</html>
