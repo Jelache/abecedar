@@ -12,17 +12,16 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Abecedar">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Baloo+2:wght@600;800&family=Nunito:wght@500;700;800&display=swap">
+<link rel="stylesheet" href="fonts/fonts.css">
 <style>
 /* Layout: o pagină de caiet tip I — linii albastre, margine roșie; vocalele roșii și consoanele albastre, ca în abecedarul de școală. */
 :root{
   --paper:#F3F7FC; --card:#FFFFFF; --ink:#1E2742; --muted:#5D6985;
   --line:#BBD3EE; --margin:#E58080;
-  --vowel:#D2333C; --vowel-bg:#FDE9E9; --cons:#2356C4; --cons-bg:#E5EDFC;
-  --accent:#F26A21; --accent-ink:#FFFFFF; --sun:#FFC53A; --sun-bg:#FFF4D6;
+  --vowel:#C02A33; --vowel-bg:#FDE9E9; --cons:#2356C4; --cons-bg:#E5EDFC;
+  --accent:#F26A21; --accent-ink:#1A1206; --sun:#FFC53A; --sun-bg:#FFF4D6;
   --mint:#169C8F; --mint-bg:#DDF4F1; --plum:#8A3FC2; --plum-bg:#F1E6FA;
+  --mint-btn:#0F8378; --mint-btn-ink:#FFFFFF; --mint-ink:#0E7A70;
   --shadow:rgba(30,39,66,.13);
   --f-display:"Baloo 2","Nunito",system-ui,sans-serif;
   --f-body:"Nunito",system-ui,-apple-system,"Segoe UI",sans-serif;
@@ -36,6 +35,7 @@
   --vowel:#FF7E86; --vowel-bg:#3B1F2D; --cons:#86A9FF; --cons-bg:#1D2C54;
   --accent:#FF8A4A; --accent-ink:#1A1206; --sun:#FFD15A; --sun-bg:#3A3220;
   --mint:#3CCBBB; --mint-bg:#163B3D; --plum:#C58BF2; --plum-bg:#2F2148;
+  --mint-btn:#3CCBBB; --mint-btn-ink:#1A1206; --mint-ink:#3CCBBB;
   --shadow:rgba(0,0,0,.45); color-scheme:dark;
 }}
 :root[data-theme="dark"]{
@@ -44,6 +44,7 @@
   --vowel:#FF7E86; --vowel-bg:#3B1F2D; --cons:#86A9FF; --cons-bg:#1D2C54;
   --accent:#FF8A4A; --accent-ink:#1A1206; --sun:#FFD15A; --sun-bg:#3A3220;
   --mint:#3CCBBB; --mint-bg:#163B3D; --plum:#C58BF2; --plum-bg:#2F2148;
+  --mint-btn:#3CCBBB; --mint-btn-ink:#1A1206; --mint-ink:#3CCBBB;
   --shadow:rgba(0,0,0,.45); color-scheme:dark;
 }
 *{box-sizing:border-box}
@@ -98,7 +99,7 @@ nav button[aria-selected="true"]{background:var(--accent);color:var(--accent-ink
   background:var(--accent);color:var(--accent-ink);box-shadow:0 4px 0 color-mix(in srgb,var(--accent) 60%,#000);transition:transform .1s}
 .btn:active{transform:translateY(3px);box-shadow:0 1px 0 color-mix(in srgb,var(--accent) 60%,#000)}
 .btn.ghost{background:var(--card);color:var(--ink);border:2px solid var(--line);box-shadow:0 3px 0 var(--shadow)}
-.btn.mint{background:var(--mint);color:#fff;box-shadow:0 4px 0 color-mix(in srgb,var(--mint) 60%,#000)}
+.btn.mint{background:var(--mint-btn);color:var(--mint-btn-ink);box-shadow:0 4px 0 color-mix(in srgb,var(--mint-btn) 60%,#000)}
 .btn svg{width:20px;height:20px;fill:currentColor}
 
 /* două coloane: grilă + detaliu */
@@ -106,7 +107,7 @@ nav button[aria-selected="true"]{background:var(--accent);color:var(--accent-ink
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(68px,1fr));gap:10px;padding:16px}
 .tile{position:relative;aspect-ratio:1;max-width:100%;border-radius:18px;font-family:var(--f-letter);font-weight:700;font-size:34px;line-height:1;
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:2px solid transparent;transition:transform .12s}
-.tile small{font-size:17px;opacity:.75}
+.tile small{font-size:17px}
 .tile.v{background:var(--vowel-bg);color:var(--vowel)}
 .tile.c{background:var(--cons-bg);color:var(--cons)}
 .tile:active{transform:scale(.93)}
@@ -198,7 +199,7 @@ nav button[aria-selected="true"]{background:var(--accent);color:var(--accent-ink
 .opts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;width:100%;max-width:560px}
 .opt{aspect-ratio:1;max-width:100%;border-radius:22px;font-family:var(--f-letter);font-weight:700;font-size:clamp(40px,9vw,64px);line-height:1;background:var(--paper);border:3px solid var(--line);box-shadow:0 4px 0 var(--shadow);display:grid;place-items:center;padding:10%}
 .opt .blob{width:100%;height:100%}
-.opt.right{background:var(--mint-bg);border-color:var(--mint);color:var(--mint)}
+.opt.right{background:var(--mint-bg);border-color:var(--mint);color:var(--mint-ink)}
 .opt.wrong{animation:shake .4s;opacity:.35}
 @keyframes shake{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
 .streak{display:flex;gap:4px;justify-content:center;min-height:22px}
@@ -438,11 +439,11 @@ const DATA = [
  ["Â",[["Câine","Câi-ne","🐶"],["Pâine","Pâi-ne","🍞"],["Mână","Mâ-nă","✋"]]],
  ["B",[["Banană","Ba-na-nă","🍌"],["Balon","Ba-lon","🎈"],["Broască","Broas-că","🐸"]]],
  ["C",[["Casă","Ca-să","🏠"],["Cal","Cal","🐴"],["Ceas","Ceas","⏰"]]],
- ["D",[["Delfin","Del-fin","🐬"],["Dinozaur","Di-no-za-ur","🦕"],["Dovleac","Dov-leac","🎃"]]],
+ ["D",[["Delfin","Del-fin","🐬"],["Dinozaur","Di-no-za-ur","🦕"],["Dovleac","Do-vleac","🎃"]]],
  ["E",[["Elefant","E-le-fant","🐘"],["Elicopter","E-li-cop-ter","🚁"],["Ecran","E-cran","🖥️"]]],
  ["F",[["Fluture","Flu-tu-re","🦋"],["Floare","Floa-re","🌸"],["Foc","Foc","🔥"]]],
  ["G",[["Girafă","Gi-ra-fă","🦒"],["Gogoașă","Go-goa-șă","🍩"],["Găină","Gă-i-nă","🐔"]]],
- ["H",[["Hipopotam","Hi-po-po-tam","🦛"],["Hamster","Hams-ter","🐹"],["Hartă","Har-tă","🗺️"]]],
+ ["H",[["Hipopotam","Hi-po-po-tam","🦛"],["Hamster","Ham-ster","🐹"],["Hartă","Har-tă","🗺️"]]],
  ["I",[["Iepure","Ie-pu-re","🐰"],["Inimă","I-ni-mă","❤️"],["Iarbă","Iar-bă","🌿"]]],
  ["Î",[["Înghețată","În-ghe-ța-tă","🍦"],["Împărat","Îm-pă-rat","👑"],["Înger","În-ger","👼"]]],
  ["J",[["Jucărie","Ju-că-ri-e","🧸"],["Jaguar","Ja-gu-ar","🐆"],["Joc","Joc","🎲"]]],
@@ -507,7 +508,8 @@ const LETTERS = DATA.map(d => d[0]);
 const WORDS = DATA.flatMap(([L, ws]) => ws.map(w => ({L, word:w[0], syl:w[1].split("-"), emo:w[2]})));
 const isV = ch => VOW.has(ch.toUpperCase());
 const low = L => L.toLowerCase();
-const nm = L => NAMES[L].split(" ")[0];
+// Short name inside words and sentences ("â" in "câine"); W and Y keep their full name so they are not heard as "dublu" or "i".
+const nm = L => ({W:"dublu ve", Y:"i grec"})[L] || NAMES[L].split(" ")[0];
 const $ = id => document.getElementById(id);
 const rnd = a => a[Math.floor(Math.random()*a.length)];
 const shuffle = a => { a = a.slice(); for (let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; };
@@ -557,7 +559,13 @@ let roVoices = [];
 let clipData = null, actx = null, curSrc = null;
 const CLIPS = {}, REC = "__rec";
 const norm = t => t.toLowerCase().replace(/[.,!?…]/g,"").replace(/\s+/g," ").trim();
-fetch("audio.json").then(r => r.ok ? r.json() : null).then(d => { if (d) { clipData = d; pickVoice(); } }).catch(() => {});
+// Sunetele: o singură descărcare, păstrată pe dispozitiv. La înregistrări noi se schimbă versiunea (v=) aici și în sw.js.
+const AUDIO_URL = "audio.json?v=6", AUDIO_CACHE = "abecedar-audio-6";
+fetch(AUDIO_URL).then(r => {
+  if (!r.ok) return null;
+  if ("caches" in window && !navigator.serviceWorker?.controller) { const c = r.clone(); caches.open(AUDIO_CACHE).then(x => x.put(AUDIO_URL, c)).catch(() => {}); }
+  return r.json();
+}).then(d => { if (d) { clipData = d; pickVoice(); } }).catch(() => {});
 function ensureCtx(){
   if (!actx) { const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return null; actx = new AC(); }
   if (actx.state === "suspended") actx.resume();
@@ -568,6 +576,8 @@ async function getBuf(key){
   const bin = atob(clipData[key]); const arr = new Uint8Array(bin.length);
   for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
   CLIPS[key] = await new Promise((ok, bad) => actx.decodeAudioData(arr.buffer, ok, bad));
+  // Păstrează doar ultimele 40 de sunete decodate, ca să nu umple memoria telefoanelor mai vechi.
+  const keys = Object.keys(CLIPS); if (keys.length > 40) delete CLIPS[keys[0]];
   return CLIPS[key];
 }
 const useRec = () => !!clipData && voiceSel.value === REC;
@@ -904,7 +914,7 @@ function newRound(intro){
     const L = rnd(LETTERS);
     q = {answer:L, opts:options(L, LETTERS), show:letterBtn, title:PH.listen,
          prompt:`<button class="btn" id="gHear">Ascultă din nou</button>`,
-         say:() => speak(nm(L)), intro:() => speak([{t:PH.listen, pause:300}, nm(L)])};
+         say:() => speak(NAMES[L]), intro:() => speak([{t:PH.listen, pause:300}, NAMES[L]])};
   } else if (m === "first"){
     const w = rnd(FIRST_WORDS);
     q = {answer:w.L, opts:options(w.L, LETTERS), show:letterBtn, title:PH.first,
@@ -914,7 +924,7 @@ function newRound(intro){
     const L = rnd(LETTERS);
     q = {answer:L, opts:options(L, LETTERS), show:o => letterBtn(low(o)), title:PH.lower,
          prompt:`<div class="glyph ${isV(L)?"v-col":"c-col"}">${L}</div>`,
-         say:() => speak(nm(L)), intro:() => speak([{t:PH.lower, pause:300}, nm(L)])};
+         say:() => speak(NAMES[L]), intro:() => speak([{t:PH.lower, pause:300}, NAMES[L]])};
   } else if (m === "count"){
     const n = 1 + Math.floor(Math.random()*10), e = rnd(COUNT_PICS);
     const pool = Array.from({length:10}, (_,i) => String(i+1));
@@ -953,7 +963,7 @@ function newRound(intro){
 }
 function renderStreak(){
   const n = gameState.streak % 5;
-  $("gStreak").innerHTML = Array.from({length:5}, (_,i) => `<svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 21l1.6-7L2 9.2l7.1-.6z" fill="${i<n?"var(--sun)":"none"}" stroke="var(--line)" stroke-width="1.5"/></svg>`).join("");
+  $("gStreak").innerHTML = Array.from({length:5}, (_,i) => `<svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 21l1.6-7L2 9.2l7.1-.6z" fill="${i<n?"var(--sun)":"none"}" stroke="var(--muted)" stroke-width="1.5"/></svg>`).join("");
 }
 function burstIn(host = $("game")){
   if (reduced()) return;
@@ -1088,7 +1098,7 @@ function setTrace(i){
   $("tCase").hidden = tSet !== "L";
   drawTrace();
 }
-const sayTrace = () => speak(tSet === "L" ? nm(tList()[ti]) : NUMS[+tList()[ti]][0]);
+const sayTrace = () => speak(tSet === "L" ? NAMES[tList()[ti].toUpperCase()] : NUMS[+tList()[ti]][0]);
 $("tPrev").onclick = () => { setTrace(ti-1); sayTrace(); };
 $("tNext").onclick = () => { setTrace(ti+1); sayTrace(); };
 $("tClear").onclick = () => { strokes = []; drawTrace(); };

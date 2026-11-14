@@ -25,6 +25,7 @@ Aplicație pentru copii care învață alfabetul românesc, cifrele și culorile
 | `index.html` | aplicația (interfață, jocuri, logică) |
 | `img/` | ilustrațiile (Fluent Emoji 3D, Microsoft, licență MIT) |
 | `audio.json` | înregistrările vocale, în format MP3 codat base64 |
+| `fonts/` | fonturile Andika, Baloo 2 și Nunito, găzduite cu aplicația (licență SIL OFL 1.1) |
 | `sw.js` | păstrează aplicația pe dispozitiv pentru folosire fără internet |
 | `manifest.webmanifest`, `icons/` | numele și iconița aplicației instalate |
 | `privacy.html` | politica de confidențialitate |
